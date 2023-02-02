@@ -2,6 +2,7 @@
   #define CIRCLE_H
 
 #include "SDL.h"
+#include "SDL_mixer.h"
 #include "SDL_image.h"
 
 #define CIRCLE_X_VELOCITY 10
@@ -17,6 +18,7 @@ private:
   SDL_Texture *m_texture; 
   Y_Direction m_yDirection; 
   X_Direction m_xDirection; 
+  Mix_Chunk  *m_wav; // sound 
 
 public:
   friend class Window;
@@ -32,11 +34,14 @@ public:
     restart();
     m_leftScore = 0; 
     m_rightScore = 0;
+    m_wav = Mix_LoadWAV("assets/collide.wav");
   }
 
   ~Circle() {
     if(m_texture)
       SDL_DestroyTexture(m_texture); 
+    if(m_wav)
+      Mix_FreeChunk(m_wav); 
   }
 
   /* motion of the circle */ 
@@ -55,10 +60,12 @@ public:
     if(m_rect.y < 0) {
       m_rect.y = 0; 
       m_yDirection = DOWN; 
+      playSound(); 
     }
     if (m_rect.y > (m_screenHeight - m_rect.h)) {
       m_rect.y = m_screenHeight - m_rect.h; 
       m_yDirection = UP; 
+      playSound();
     }
   }
 
@@ -72,6 +79,10 @@ public:
     m_xDirection = direction; 
   }
 
+  /* playing the wav file */ 
+  void playSound() {
+    Mix_PlayChannel(1, m_wav, 0); 
+  }
 };
 
 #endif // CIRCLE_H

@@ -86,10 +86,14 @@ void Game::onBtnDown() {
 
 /* collision detector */ 
 void Game::detectCollision() {
-  if(SDL_HasIntersection(&(m_circle->m_rect), &(m_leftPaddle->m_rect)))
+  if(SDL_HasIntersection(&(m_circle->m_rect), &(m_leftPaddle->m_rect))) {
+    m_circle->playSound(); 
     m_circle->setXDirection(RIGHT); 
-  if(SDL_HasIntersection(&(m_circle->m_rect), &(m_rightPaddle->m_rect)))
+  }
+  if(SDL_HasIntersection(&(m_circle->m_rect), &(m_rightPaddle->m_rect))) {
+    m_circle->playSound(); 
     m_circle->setXDirection(LEFT);
+  }
 }
 
 /* move left paddle */ 

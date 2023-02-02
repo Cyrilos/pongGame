@@ -18,7 +18,7 @@ private:
   SDL_Texture  *m_texture;  // text texture 
   SDL_Renderer *m_renderer; // the renderer destination of the texture
   std::string   m_text;     // the text rendered on the texture
-  __int32       m_color;    // text color 
+  Uint32       m_color;    // text color 
 
 public:
   /* constructor */ 

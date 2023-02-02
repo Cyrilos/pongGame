@@ -11,7 +11,7 @@ void Text::renderText(std::string str) {
   SDL_Surface* tempSurface = NULL; 
 
   /* text rendering */ 
-  __int32 *pixels = (__int32*) malloc(sizeof(__int32) * 64 * str.size()); 
+  Uint32 *pixels = (Uint32*) malloc(sizeof(Uint32) * 64 * str.size()); 
   for(int i = 0, k = 0; i < 8; i++) {
     for(const auto& c : str) {
       int pixelIndex = (c - 32)*8 + i; 

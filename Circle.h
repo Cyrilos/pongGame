@@ -24,65 +24,24 @@ public:
   friend class Window;
   friend class Game; 
 
-  Circle(SDL_Renderer *renderer, int screenWidth, int screenHeight, const char *filePath) : 
-  m_yDirection {UP}, m_xDirection {RIGHT}, m_screenWidth{screenWidth}, m_screenHeight{screenHeight}{
-    /* creating texture */ 
-    SDL_Surface *tempSurface = IMG_Load(filePath); 
-    if(tempSurface)
-      m_texture = SDL_CreateTextureFromSurface(renderer, tempSurface); 
-    SDL_FreeSurface(tempSurface); 
-    restart();
-    m_leftScore = 0; 
-    m_rightScore = 0;
-    m_wav = Mix_LoadWAV("assets/collide.wav");
-  }
+  Circle(SDL_Renderer *renderer, int screenWidth, int screenHeight, const char *filePath);
 
-  ~Circle() {
-    if(m_texture)
-      SDL_DestroyTexture(m_texture); 
-    if(m_wav)
-      Mix_FreeChunk(m_wav); 
-  }
+  ~Circle();
 
   /* motion of the circle */ 
-  void motion() {
-    m_rect.x += (CIRCLE_X_VELOCITY) * ((int) m_xDirection);
-    m_rect.y += (CIRCLE_Y_VELOCITY) * ((int) m_yDirection); 
-    if(m_rect.x < 0) {
-      m_rightScore++; 
-      restart();
-    }
-    if(m_rect.x > (m_screenWidth - m_rect.w)) {
-      m_leftScore++;
-      restart();
-    }
-
-    if(m_rect.y < 0) {
-      m_rect.y = 0; 
-      m_yDirection = DOWN; 
-      playSound(); 
-    }
-    if (m_rect.y > (m_screenHeight - m_rect.h)) {
-      m_rect.y = m_screenHeight - m_rect.h; 
-      m_yDirection = UP; 
-      playSound();
-    }
-  }
+  void motion();
 
   /* initial position */ 
-  void restart() {
-    m_rect = {m_screenWidth/2, m_screenHeight/2, 20, 20}; 
-  }
+  void restart();
 
   /* set horizontal direction */ 
-  void setXDirection(X_Direction direction) {
-    m_xDirection = direction; 
-  }
+  void setXDirection(X_Direction direction);
 
   /* playing the wav file */ 
-  void playSound() {
-    Mix_PlayChannel(1, m_wav, 0); 
-  }
+  void playSound();
 };
 
+#ifndef CIRCLE_CPP
+#include "Circle.cpp"
+#endif // CIRCLE_CPP
 #endif // CIRCLE_H
